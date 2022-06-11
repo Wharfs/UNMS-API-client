@@ -1,27 +1,32 @@
 {
-    "name": "spacie2136/unms",
+    "name": "wharfs/unms-api-client",
     "type": "library",
-    "description": "PHP API for accessing Ubiquiti UNMS server",
-    "keywords": ["ubiquiti","ubnt","unms","php","api"],
-    "homepage": "https://github.com/spacie2136/unms",
+    "description": "API client class for use with Ubiquiti's UNMS controller",
+    "keywords": [
+        "ubnt",
+        "ubiquiti",
+        "unms",
+        "controller",
+        "api",
+        "client"
+    ],
+    "homepage": "https://github.com/wharfs/UNMS-API-client",
     "license": "MIT",
     "authors": [
         {
-            "name": "Josef Karczewski (spacie2136)",
-            "email": "j.karczewski@gmail.com",
-            "role": "Developer"
+            "name": "wharfs",
+            "email": "foxxat@gmail.com",
+            "homepage": "https://github.com/wharfs"
         }
     ],
-    "support": {
-        "issues": "https://github.com/spacie2136/unms/issues"
-    },
     "require": {
-        "php": ">=5.6.0"
-    },
-    "require-dev": {
-    },
-    "suggest": {
+        "php": ">=5.5.0",
+        "ext-curl": "*",
+        "ext-json": "*"
     },
     "autoload": {
+        "psr-4": {
+            "UNMS_API\\": "src/"
+        }
     }
 }

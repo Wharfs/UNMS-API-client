@@ -1,21 +1,6 @@
 <?php
-/**
- *
- * This Unms API client is made by Josef Karczewski
- *
- * Initialy started by the DEV team @ MonSansFil
- * and is part of the monsansfil.ca project
- *
- * @original_author Patrice Guillemette <patriceguillemette.com>
- *
- * This Unms API client is based on the work done by the following developers:
- * Malle-pietje: https://github.com/Art-of-WiFi/UniFi-API-client
- *
- * This source file is subject to the MIT license that is bundled
- * with this package in the file LICENSE.md
- */
 
-namespace Spacie2136;
+namespace UNMS_API;
 
 /**
  * Auxiliary output function
@@ -27,7 +12,7 @@ function output($string) {
 /**
  * the Unms API client class
  */
-class Unms
+class Client
 {
     protected $baseurl            = 'myhost.com:443';
     protected $debug              = false;
@@ -74,7 +59,7 @@ class Unms
         /**
          * logout, if needed
          */
-        if ( ($this->is_loggedin) && ($this->$auto_logout) ) $this->logout();
+        if ( ($this->is_loggedin) && ($this->auto_logout) ) $this->logout();
     }
 
     /**
@@ -181,6 +166,17 @@ class Unms
         $site->identification->name = $name;
 
         return $this->setSite($siteId, $site);
+    }
+
+    /**
+     * Return all the sites
+     * @return object               All sites objects
+     */
+    public function getAllSites()
+    {
+        if (!$this->is_loggedin) return false;
+        $response    = $this->exec_curl('/v2.1/sites');
+        return $this->process_response($response);
     }
 
     /**
@@ -760,7 +756,7 @@ class Unms
             #Login to get x-auth-token
             #
 
-            $curl_login = \Unms::get_curl_obj();
+            $curl_login = Client::get_curl_obj();
             curl_setopt($curl_login, CURLOPT_URL,$url);
             curl_setopt($curl_login, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($curl_login, CURLOPT_POSTFIELDS, $login_json);
@@ -790,7 +786,7 @@ class Unms
                     output('Curl error: ' . curl_error($curl_login));
             }
 
-            $header = \Unms::get_headers_from_curl_response($content);
+            $header = Client::get_headers_from_curl_response($content);
 
             $header_size = curl_getinfo($curl_login, CURLINFO_HEADER_SIZE);
             $body        = trim(substr($content, $header_size));
